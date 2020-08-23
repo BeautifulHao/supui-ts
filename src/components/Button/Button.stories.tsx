@@ -20,3 +20,12 @@ Primary.args = {
     size: 'lg',
     children: 'Button',
 };
+
+export const Link = Template.bind({});
+
+Link.args = {
+    onClick: action('clicked'),
+    btnType: 'link',
+    href:'https://www.baidu.com',
+    children: 'Link Button',
+}

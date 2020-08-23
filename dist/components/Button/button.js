@@ -26,10 +26,21 @@ var react_1 = require("react");
 var classnames_1 = require("classnames");
 exports.Button = function (props) {
     var _a;
-    var children = props.children, className = props.className, btnType = props.btnType, size = props.size, disabled = props.disabled, restProps = __rest(props, ["children", "className", "btnType", "size", "disabled"]);
+    var children = props.children, className = props.className, btnType = props.btnType, size = props.size, disabled = props.disabled, href = props.href, restProps = __rest(props, ["children", "className", "btnType", "size", "disabled", "href"]);
     var classes = classnames_1.default('btn', className, (_a = {},
         _a["btn-" + btnType] = btnType,
         _a["btn-" + size] = size,
+        _a['disabled'] = (btnType === 'link') && disabled,
         _a));
-    return (react_1.default.createElement("button", __assign({}, restProps, { className: classes, disabled: disabled }), children));
+    if (btnType === 'link' && href) {
+        return (react_1.default.createElement("a", __assign({ className: classes, href: href }, restProps), children));
+    }
+    else {
+        return (react_1.default.createElement("button", __assign({ className: classes, disabled: disabled }, restProps), children));
+    }
 };
+exports.Button.defaultProps = {
+    disabled: false,
+    btnType: 'default'
+};
+exports.default = exports.Button;
