@@ -7,6 +7,7 @@ interface InnerButtonPros {
     disabled?: boolean;
     btnType?: ButtonType;
     children: React.ReactNode;
+    block: boolean;
     href?: string;
 }
 declare type NativeButtonProps = InnerButtonPros & ButtonHTMLAttributes<HTMLElement>;
