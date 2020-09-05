@@ -1,0 +1,86 @@
+.supui-alert {
+    box-sizing: border-box;
+    margin: 0px;
+    font-size: 14px;
+    list-style: none;
+    position: relative;
+    padding: 8px 15px 8px 37px;
+    border-radius: 2px;
+    line-height: 1.2;
+
+    &.supui-alert-withDescript {
+        padding: 8px 15px 8px 50px;
+        .supui-alert-icon {
+            font-size: 1.5em;
+        }
+    }
+
+    &.supui-alert-noIcon {
+        padding: 8px 15px;
+    }
+
+    &.supui-alert-withClosable{
+        padding-right: 30px;
+    }
+
+    .supui-alert-icon {
+        position: absolute;
+        top: 10px;
+        left: 16px;
+        font-size: 1em;
+    }
+
+    .supui-alert-message {
+        display: block;
+        margin-bottom: 4px;
+        color: rgba(0, 0, 0, .85);
+        font-size: 16px;
+    }
+
+    .supui-alert-description {
+        display: block;
+        font-size: 12px;
+        line-height: 22px;
+    }
+
+    .supui-alert-closable{
+        position: absolute;
+        right: 16px;
+        top:12px;
+        padding: 0;
+        overflow: hidden;
+        font-size: 12px;
+        background-color: transparent;
+        border:none;
+        outline: none;
+        cursor: pointer;
+
+        .supui-alert-closeText{
+            color:rgba(0, 0,0,0.45);
+            transition:color .3s;
+            &:hover{
+                color:rgba(0, 0,0,0.2);
+            } 
+        }
+
+        .supui-alert-close-icon{
+            color:rgba(0, 0,0,0.45);
+            transition:color .3s;
+            &:hover{
+                color:rgba(0, 0,0,0.2);
+            }
+        }
+    }
+}
+
+@each $key,
+$val in $alert-colors {
+    .alert-#{$key} {
+        background-color: rgba($val, 0.05);
+        border: 1px solid rgba($val, 0.8);
+
+        .supui-alert-icon {
+            color: $val;
+        }
+    }
+}
