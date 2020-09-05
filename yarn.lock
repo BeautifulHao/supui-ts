@@ -1198,7 +1198,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.3.1", "@babel/runtime@^7.3.4", "@babel/runtime@^7.4.5", "@babel/runtime@^7.5.0", "@babel/runtime@^7.5.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.11.2"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha1-9UnBPHVMxAuHZEufqfCaapX+BzY=
@@ -2476,6 +2476,18 @@
     dom-accessibility-api "^0.5.1"
     pretty-format "^25.5.0"
 
+"@testing-library/dom@6.10.1":
+  version "6.10.1"
+  resolved "https://registry.npm.taobao.org/@testing-library/dom/download/@testing-library/dom-6.10.1.tgz?cache=0&sync_timestamp=1599118254422&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40testing-library%2Fdom%2Fdownload%2F%40testing-library%2Fdom-6.10.1.tgz#da5bf5065d3f9e484aef4cc495f4e1a5bea6df2e"
+  integrity sha1-2lv1Bl0/nkhK70zElfThpb6m3y4=
+  dependencies:
+    "@babel/runtime" "^7.6.2"
+    "@sheerun/mutationobserver-shim" "^0.3.2"
+    "@types/testing-library__dom" "^6.0.0"
+    aria-query "3.0.0"
+    pretty-format "^24.9.0"
+    wait-for-expect "^3.0.0"
+
 "@testing-library/dom@^6.15.0":
   version "6.16.0"
   resolved "https://registry.npm.taobao.org/@testing-library/dom/download/@testing-library/dom-6.16.0.tgz#04ada27ed74ad4c0f0d984a1245bb29b1fd90ba9"
@@ -2808,7 +2820,7 @@
   dependencies:
     "@testing-library/dom" "*"
 
-"@types/testing-library__dom@^6.12.1":
+"@types/testing-library__dom@^6.0.0", "@types/testing-library__dom@^6.12.1":
   version "6.14.0"
   resolved "https://registry.npm.taobao.org/@types/testing-library__dom/download/@types/testing-library__dom-6.14.0.tgz#1aede831cb4ed4a398448df5a2c54b54a365644e"
   integrity sha1-Gu3oMctO1KOYRI31osVLVKNlZE4=
@@ -3499,7 +3511,7 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-aria-query@^3.0.0:
+aria-query@3.0.0, aria-query@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/aria-query/download/aria-query-3.0.0.tgz#65b3fcc1ca1155a8c9ae64d6eee297f15d5133cc"
   integrity sha1-ZbP8wcoRVajJrmTW7uKX8V1RM8w=
@@ -14289,7 +14301,7 @@ w3c-xmlserializer@^1.1.2:
     webidl-conversions "^4.0.2"
     xml-name-validator "^3.0.0"
 
-wait-for-expect@^3.0.2:
+wait-for-expect@^3.0.0, wait-for-expect@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npm.taobao.org/wait-for-expect/download/wait-for-expect-3.0.2.tgz#d2f14b2f7b778c9b82144109c8fa89ceaadaa463"
   integrity sha1-0vFLL3t3jJuCFEEJyPqJzqrapGM=
