@@ -18,6 +18,7 @@ export interface AlertProps {
     onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
     onClick?: React.MouseEventHandler<HTMLDivElement>;
+    role?: string;
 }
 
 export const Alert: React.FC<AlertProps> = (props) => {
@@ -28,7 +29,6 @@ export const Alert: React.FC<AlertProps> = (props) => {
         message,
         description,
         onClose,
-        afterClose,
         showIcon,
         icon,
         onMouseEnter,
@@ -38,7 +38,7 @@ export const Alert: React.FC<AlertProps> = (props) => {
         ...restProps
     } = props
 
-    const [close, setclose] = useState(false);
+    const [close, setclose] = useState<boolean>(false);
 
     const icons = {
         'success': faCheckCircle,
