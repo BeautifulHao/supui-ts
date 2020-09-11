@@ -18,6 +18,16 @@ const Template: Story<MenuPros> = (args: MenuPros) => (
             <MenuItem>item 4</MenuItem>
             <MenuItem>item 5</MenuItem>
             <MenuItem disabled={true}>item 6</MenuItem>
+            <SubMenu title="SubMenu2">
+                <MenuItem>item 6</MenuItem>
+                <MenuItem>item 7</MenuItem>
+                <MenuItem disabled={true}>item 6</MenuItem>
+                <SubMenu title="SubMenu3">
+                    <MenuItem>item 8</MenuItem>
+                    <MenuItem>item 9</MenuItem>
+                    <MenuItem disabled={true}>item 10</MenuItem>
+                </SubMenu>
+            </SubMenu>
         </SubMenu>
     </Menu>
 );
@@ -25,5 +35,6 @@ const Template: Story<MenuPros> = (args: MenuPros) => (
 export const VerticalMode = Template.bind({});
 
 VerticalMode.args = {
-    mode: 'horizontal'
+    mode: 'horizontal',
+    onSelect:(index)=>{console.log(index)}
 };

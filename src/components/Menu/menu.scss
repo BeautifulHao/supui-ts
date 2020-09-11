@@ -21,8 +21,7 @@
             vertical-align: bottom;
             user-select: none;
 
-            &.supui-menu-item-active {
-                border-bottom: 2px solid $cyan;
+            &:hover {
                 background-color: $gray-200;
                 color: $cyan;
                 cursor: pointer;
@@ -31,6 +30,9 @@
             &.supui-menu-item-disable {
                 color: rgba($gray-600, 0.8);
                 cursor: default;
+                &:hover {
+                    background-color: $gray-100;
+                }
             }
 
             &.supui-menu-item-selected {
@@ -43,70 +45,74 @@
 
         .supui-submenu-item {
             display: inline-block;
-            padding: 10px 16px;
+            padding: 10px 40px 10px 16px;
             border-bottom: 2px solid transparent;
             vertical-align: bottom;
             position: relative;
-            box-sizing: border-box;
-
 
             &.supui-submenu-item-disable {
                 color: rgba($gray-600, 0.8);
                 cursor: default;
             }
 
-            &.supui-submenu-item-active {
-
-                border-bottom: 2px solid $cyan;
+            &:hover {
                 background-color: $gray-200;
                 color: $cyan;
                 cursor: pointer;
             }
 
-            &.supui-submenu-item-selected {
-                border-bottom: 2px solid $cyan;
-                background-color: rgba($cyan, 0.1);
-                color: $cyan;
-                cursor: pointer;
-            }
-
-
             .supui-subitem-title {
                 white-space: nowrap;
                 user-select: none;
+
+                .supui-subitem-title-icon {
+                    position: absolute;
+                    right: 14px;
+                    top: 14px;
+                    vertical-align: middle;
+                }
             }
 
         }
 
         .supui-submenu {
             position: absolute;
-            top: calc(100% + 8px);
-            left: 0px;
             width: 160px;
             outline: none;
             margin-bottom: 0;
             padding-left: 0;
             padding-right: 0;
             list-style: none;
-            z-index: 100;
             background-color: $gray-100;
             border: none;
-            border-bottom: 1px solid $gray-200;
             box-shadow: 0 0 4px $gray-300;
-            color:$gray-900;
+            color: $gray-900;
             display: none;
 
-            &.supui-submenu-open{
+            &.supui-submenu-open {
                 display: block;
             }
 
+            &.supui-submenu-toplevel {
+                top: calc(100% + 8px);
+                left: 0px;
+
+                .supui-submenu-item {
+                    width: 100%;
+                }
+            }
+
+            &.supui-submenu-sublevel {
+                left: 164px;
+                top:0px;
+                .supui-submenu-item {
+                    width: 100%;
+                }
+            }
 
             .supui-menu-item {
                 display: block;
             }
         }
-
     }
-
-
 }

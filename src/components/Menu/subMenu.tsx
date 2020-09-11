@@ -1,7 +1,10 @@
-import React, { FC, useState, useContext, FunctionComponentElement } from "react";
+import React, { FC, useState, useContext, FunctionComponentElement, useEffect, useRef, useCallback } from "react";
+import { findDOMNode } from "react-dom"
 import classNames from "classnames";
 import { MenuContext } from './menu'
 import { MenuItemProps } from "./menuItem";
+import Icon from '../Icon'
+import { faAngleDown, faAngleUp, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 
 export interface SubMenuProps {
     index?: string;
@@ -15,6 +18,9 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
     const { index, title, children, className, disabled, style } = props
     const context = useContext(MenuContext)
     const [isActive, setIsActive] = useState(false);
+    const [isOpenSub, setOpenSub] = useState(false);
+    const ref = useRef<HTMLLIElement>(null);
+    const [isTop, setIsTop] = useState(false);
 
     const classes = classNames('supui-submenu-item', className, {
         'supui-submenu-item-disable': disabled,
@@ -24,34 +30,24 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
 
     const clasesTitle = classNames('supui-subitem-title')
 
-    const handlerMouseOver = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        e.stopPropagation();
-        setIsActive(true)
-    }
-
-    const handlerMouseLeave = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        e.stopPropagation();
-        setIsActive(false)
-    }
-
     const handlerClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.stopPropagation()
         if (!disabled && context.onSelect && (typeof index === 'string')) {
-            context.onSelect(index)
+            setOpenSub(true)
         }
     }
 
     const renderChildren = () => {
-        const subMenuClasses = classNames('supui-submenu', {
-            [`supui-submenu-open`]:  context.index && (context.index as string).startsWith(index as string)
+        const subMenuClasses = classNames('supui-submenu', `supui-submenu-${isTop ? 'toplevel' : 'sublevel'}`, {
+            [`supui-submenu-open`]: isOpenSub
         })
 
         const childrenComponent = React.Children.map(children, (child, itemIndex) => {
             const childElement = child as FunctionComponentElement<MenuItemProps>
-            if (childElement.type.displayName === 'MenuItem') {
+            if (childElement.type.displayName === 'MenuItem' || childElement.type.displayName === 'SubMenu') {
                 return React.cloneElement(childElement, { index: `${index}-${itemIndex}` })
             } else {
-                console.error("Warning:SubMenu has a child which is not a MenuItem component.")
+                console.error("Warning:SubMenu has a child which is not a MenuItem|SubMenu component.")
             }
         })
 
@@ -60,20 +56,45 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
                 {childrenComponent}
             </ul>
         )
-
-
     }
+
+    const outsideClick = (event: MouseEvent) => {
+        let result = findDOMNode(ref.current)?.contains(event.target as HTMLElement);
+        if (!result) {
+            setOpenSub(false)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousedown', outsideClick)
+        return () => {
+            document.removeEventListener('mousedown', outsideClick)
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const parentNode = findDOMNode(ref.current)?.parentNode as HTMLElement;
+        if (parentNode && parentNode.className.startsWith('supui-menu ')) {
+            setIsTop(true)
+        }
+    }, [ref]);
+
+    useEffect(() => {
+        if (context.index !== index && context.index.startsWith(index as string)) {
+            setOpenSub(false)
+        }
+    }, [context.index, index])
 
     return (
         <li className={classes}
             style={style}
             data-index={index}
-            onMouseOver={handlerMouseOver}
-            onMouseLeave={handlerMouseLeave}
             onClick={handlerClick}
-            key={index}>
+            key={index} ref={ref}>
             <div className={clasesTitle}>
                 {title}
+                <Icon icon={isTop ? (isOpenSub ? faAngleUp : faAngleDown) : faAngleRight} className="supui-subitem-title-icon"></Icon>
             </div>
             {renderChildren()}
         </li>

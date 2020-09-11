@@ -40,7 +40,6 @@ export const Menu: FC<MenuPros> = (props) => {
 
   const renderChildren = () => {
     return React.Children.map(children, (child, index) => {
-      console.log(child)
       const childElement = child as React.FunctionComponentElement<any>
       const { displayName } = childElement.type;
       if (displayName === 'MenuItem' || displayName === 'SubMenu') {
