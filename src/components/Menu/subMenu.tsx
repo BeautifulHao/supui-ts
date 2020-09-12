@@ -35,10 +35,10 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
                 setOpenSub(true)
             }
             else {
+                if (isTop && isOpenSub === false && context.onTopSubOpenChange) {
+                    context.onTopSubOpenChange(index)
+                }
                 setOpenSub(value => {
-                    if (isTop && value === false && context.onTopSubOpenChange) {
-                        context.onTopSubOpenChange(index)
-                    }
                     return !value
                 })
             }
@@ -101,7 +101,6 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
     useEffect(() => {
         if (context.mode === 'vertical' && context.openTopIndex && index !== context.openTopIndex) {
             setOpenSub(false)
-
         }
     }, [context.openTopIndex, index, context.mode])
 

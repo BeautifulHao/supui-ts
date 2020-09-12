@@ -36,8 +36,8 @@ export const Menu: FC<MenuPros> = (props) => {
     }
   }
 
-  const handleTopOpenChange = (index: string) => {
-    setopenTopIndex(index)
+  const handleTopOpenChange = (index: string | undefined) => {
+      setopenTopIndex(index?index:'')
   }
 
   const passedContext: IMenuContext = {

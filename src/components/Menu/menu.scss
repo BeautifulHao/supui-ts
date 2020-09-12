@@ -29,6 +29,7 @@
             &.supui-menu-item-disable {
                 color: rgba($gray-600, 0.8);
                 cursor: default;
+
                 &:hover {
                     background-color: $gray-100;
                 }
@@ -103,7 +104,8 @@
 
             &.supui-submenu-sublevel {
                 left: 164px;
-                top:0px;
+                top: 0px;
+
                 .supui-submenu-item {
                     width: 100%;
                 }
@@ -137,6 +139,7 @@
             &.supui-menu-item-disable {
                 color: rgba($gray-600, 0.8);
                 cursor: default;
+
                 &:hover {
                     background-color: $gray-100;
                 }
@@ -154,7 +157,7 @@
             display: block;
             border-right: 2px solid transparent;
             position: relative;
-            
+
             &.supui-submenu-item-disable {
                 color: rgba($gray-600, 0.8);
                 cursor: default;
@@ -181,6 +184,13 @@
 
         }
 
+        >.supui-submenu-item {
+            >.supui-subitem-title {
+                border-top: 1px solid $gray-300;
+                border-bottom: 1px solid $gray-300;
+            }
+        }
+
         .supui-submenu {
             outline: none;
             width: 100%;
@@ -190,7 +200,7 @@
             list-style: none;
             background-color: $white;
             color: $gray-900;
-            display:none;
+            display: none;
 
             &.supui-submenu-open {
                 display: block;
