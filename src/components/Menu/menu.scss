@@ -4,7 +4,6 @@
     padding-left: 0;
     padding-right: 0;
     list-style: none;
-    display: flex;
     position: relative;
 
     &.supui-menu-horizontal {
@@ -111,6 +110,89 @@
             }
 
             .supui-menu-item {
+                display: block;
+            }
+        }
+    }
+
+    &.supui-menu-vertical {
+        background-color: $gray-100;
+        border: 1px solid $gray-200;
+        box-shadow: 0 0 4px $gray-300;
+        white-space: nowrap;
+
+        .supui-menu-item {
+            display: block;
+            padding: 10px 16px;
+            border-right: 2px solid transparent;
+            user-select: none;
+            background-color: $white;
+
+            &:hover {
+                background-color: $gray-100;
+                color: $cyan;
+                cursor: pointer;
+            }
+
+            &.supui-menu-item-disable {
+                color: rgba($gray-600, 0.8);
+                cursor: default;
+                &:hover {
+                    background-color: $gray-100;
+                }
+            }
+
+            &.supui-menu-item-selected {
+                border-right: 2px solid $cyan;
+                background-color: rgba($cyan, 0.1);
+                color: $cyan;
+                cursor: pointer;
+            }
+        }
+
+        .supui-submenu-item {
+            display: block;
+            border-right: 2px solid transparent;
+            position: relative;
+            
+            &.supui-submenu-item-disable {
+                color: rgba($gray-600, 0.8);
+                cursor: default;
+            }
+
+            &:hover {
+                background-color: $gray-200;
+                color: $cyan;
+                cursor: pointer;
+            }
+
+            .supui-subitem-title {
+                white-space: nowrap;
+                padding: 10px 40px 10px 16px;
+                user-select: none;
+
+                .supui-subitem-title-icon {
+                    position: absolute;
+                    right: 14px;
+                    top: 14px;
+                    vertical-align: middle;
+                }
+            }
+
+        }
+
+        .supui-submenu {
+            outline: none;
+            width: 100%;
+            margin-bottom: 0;
+            padding-left: 5px;
+            padding-right: 0;
+            list-style: none;
+            background-color: $white;
+            color: $gray-900;
+            display:none;
+
+            &.supui-submenu-open {
                 display: block;
             }
         }

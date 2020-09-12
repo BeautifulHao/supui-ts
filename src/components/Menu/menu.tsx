@@ -1,4 +1,4 @@
-import React, { FC, createContext, useState } from "react";
+import React, { FC, createContext, useState, CSSProperties } from "react";
 import classNames from "classnames";
 
 export type MenuType = "vertical" | "horizontal";
@@ -7,6 +7,8 @@ interface IMenuContext {
   index: string;
   onSelect?: (selectedIndex: string) => void;
   mode?: MenuType;
+  openTopIndex?: string;
+  onTopSubOpenChange?: (index: string | undefined) => void;
 }
 
 export const MenuContext = createContext<IMenuContext>({ index: '0' })
@@ -15,12 +17,14 @@ export interface MenuPros {
   className?: string;
   mode: MenuType;
   defaultSelectIndex?: string;
-  onSelect?: (selectedIndex: string) => void
+  style?: CSSProperties;
+  onSelect?: (selectedIndex: string) => void;
 }
 
 export const Menu: FC<MenuPros> = (props) => {
-  const { className, children, mode, defaultSelectIndex, onSelect } = props
+  const { className, children, mode, defaultSelectIndex, onSelect, style } = props
   const [selectIndex, setSelectIndex] = useState(defaultSelectIndex);
+  const [openTopIndex, setopenTopIndex] = useState('');
   const classes = classNames('supui-menu', className, {
     [`supui-menu-${mode}`]: mode
   })
@@ -32,9 +36,15 @@ export const Menu: FC<MenuPros> = (props) => {
     }
   }
 
+  const handleTopOpenChange = (index: string) => {
+    setopenTopIndex(index)
+  }
+
   const passedContext: IMenuContext = {
     index: selectIndex ? selectIndex : '',
+    openTopIndex: openTopIndex ? openTopIndex : '',
     onSelect: handleClick,
+    onTopSubOpenChange: handleTopOpenChange,
     mode,
   }
 
@@ -52,7 +62,7 @@ export const Menu: FC<MenuPros> = (props) => {
   }
 
   return (
-    <ul className={classes}>
+    <ul className={classes} style={{ ...style }}>
       <MenuContext.Provider value={passedContext}>
         {renderChildren()}
       </MenuContext.Provider>

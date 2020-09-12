@@ -17,14 +17,12 @@ export interface SubMenuProps {
 export const SubMenu: React.FC<SubMenuProps> = (props) => {
     const { index, title, children, className, disabled, style } = props
     const context = useContext(MenuContext)
-    const [isActive, setIsActive] = useState(false);
     const [isOpenSub, setOpenSub] = useState(false);
     const ref = useRef<HTMLLIElement>(null);
     const [isTop, setIsTop] = useState(false);
 
     const classes = classNames('supui-submenu-item', className, {
         'supui-submenu-item-disable': disabled,
-        'supui-submenu-item-active': !disabled && isActive,
         'supui-submenu-item-selected': context.index === index
     })
 
@@ -32,8 +30,18 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
 
     const handlerClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.stopPropagation()
-        if (!disabled && context.onSelect && (typeof index === 'string')) {
-            setOpenSub(true)
+        if (!disabled) {
+            if (context.mode === 'horizontal') {
+                setOpenSub(true)
+            }
+            else {
+                setOpenSub(value => {
+                    if (isTop && value === false && context.onTopSubOpenChange) {
+                        context.onTopSubOpenChange(index)
+                    }
+                    return !value
+                })
+            }
         }
     }
 
@@ -59,9 +67,11 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
     }
 
     const outsideClick = (event: MouseEvent) => {
-        let result = findDOMNode(ref.current)?.contains(event.target as HTMLElement);
-        if (!result) {
-            setOpenSub(false)
+        if (context.mode === 'horizontal') {
+            let result = findDOMNode(ref.current)?.contains(event.target as HTMLElement);
+            if (!result) {
+                setOpenSub(false)
+            }
         }
     }
 
@@ -81,10 +91,28 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
     }, [ref]);
 
     useEffect(() => {
-        if (context.index !== index && context.index.startsWith(index as string)) {
-            setOpenSub(false)
+        if (context.mode === 'horizontal') {
+            if (context.index !== index && context.index.startsWith(index as string)) {
+                setOpenSub(false)
+            }
         }
-    }, [context.index, index])
+    }, [context.index, index, context.mode])
+
+    useEffect(() => {
+        if (context.mode === 'vertical' && context.openTopIndex && index !== context.openTopIndex) {
+            setOpenSub(false)
+
+        }
+    }, [context.openTopIndex, index, context.mode])
+
+    const getIcon = () => {
+        if (context.mode === 'horizontal') {
+            return isTop ? (isOpenSub ? faAngleUp : faAngleDown) : faAngleRight
+        }
+        else {
+            return isOpenSub ? faAngleUp : faAngleDown
+        }
+    }
 
     return (
         <li className={classes}
@@ -94,7 +122,7 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
             key={index} ref={ref}>
             <div className={clasesTitle}>
                 {title}
-                <Icon icon={isTop ? (isOpenSub ? faAngleUp : faAngleDown) : faAngleRight} className="supui-subitem-title-icon"></Icon>
+                <Icon icon={getIcon()} className="supui-subitem-title-icon"></Icon>
             </div>
             {renderChildren()}
         </li>
