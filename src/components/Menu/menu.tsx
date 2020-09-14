@@ -56,6 +56,7 @@ export const Menu: FC<MenuPros> = (props) => {
         return React.cloneElement(childElement, { index: index.toString() })
       }
       else {
+        console.log(displayName,child,childElement)
         console.error("Warning:Menu has a child which is not a MenuItem or SubMenu compoment")
       }
     })

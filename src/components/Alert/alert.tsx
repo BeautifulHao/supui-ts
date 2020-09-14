@@ -1,6 +1,7 @@
-import React, { CSSProperties,useState } from 'react'
+import React, { CSSProperties, useState } from 'react'
 import classNames from 'classnames';
 import Icon from '../Icon/icon';
+import Transition from '../Transition/transition'
 import { faCheckCircle, faInfoCircle, faExclamationCircle, faTimesCircle, faTimes, IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
 export interface AlertProps {
@@ -31,8 +32,6 @@ export const Alert: React.FC<AlertProps> = (props) => {
         onClose,
         showIcon,
         icon,
-        onMouseEnter,
-        onMouseLeave,
         onClick,
         className,
         ...restProps
@@ -62,12 +61,10 @@ export const Alert: React.FC<AlertProps> = (props) => {
 
     const iconItem: IconDefinition = icon ? icon : icons[type];
 
-    if (close) {
-        return <div className="supui-alert-closed"></div>
-    }
-    else {
-        return (
-            <div className={classes} {...restProps} onClick={onClick} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+
+    return (
+        <Transition in={!close} timeout={300} animation={'zoom-in-top'}>
+            <div className={classes} {...restProps} onClick={onClick}>
                 {showIcon ? (<span className="supui-alert-icon">
                     <Icon icon={iconItem}></Icon>
                 </span>) : null}
@@ -90,8 +87,9 @@ export const Alert: React.FC<AlertProps> = (props) => {
                         ) : null
                 }
             </div>
-        )
-    }
+        </Transition>
+    )
+
 }
 
 export default Alert

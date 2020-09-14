@@ -7,10 +7,11 @@ export interface MenuItemProps {
     disabled?: boolean;
     className?: string;
     style?: React.CSSProperties;
+    title?: string
 }
 
 export const MenuItem: React.FC<MenuItemProps> = (props) => {
-    const { index, disabled, className, style, children } = props
+    const { index, disabled, className, style, children,...rest } = props
     const context = useContext(MenuContext);
 
     const classes = classNames('supui-menu-item', className,
@@ -31,7 +32,7 @@ export const MenuItem: React.FC<MenuItemProps> = (props) => {
             style={style}
             key={index}
             data-index={index}
-            onClick={handlerClick}>
+            onClick={handlerClick} {...rest}>
             {children}
         </li>
     )

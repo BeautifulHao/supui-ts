@@ -42,7 +42,7 @@ describe('test Alert', () => {
         wrapper.find('.supui-alert-closable').simulate('click')
         expect(successProps.onClose).toHaveBeenCalled();
 
-        expect(wrapper.find('.supui-alert-closed')).toHaveLength(1)
+        expect(Object.keys(wrapper.find('.supui-alert')).length).toBe(0)
     });
 
     it('should render the corrent no-icon onClose alert', () => {

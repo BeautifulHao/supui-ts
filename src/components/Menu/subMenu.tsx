@@ -129,5 +129,5 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
         </li>
     )
 }
-
+SubMenu.displayName = "SubMenu"
 export default SubMenu
