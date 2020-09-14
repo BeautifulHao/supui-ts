@@ -5,6 +5,7 @@ import { MenuContext } from './menu'
 import { MenuItemProps } from "./menuItem";
 import Icon from '../Icon'
 import { faAngleDown, faAngleUp, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import Transition from '../Transition/transition'
 
 export interface SubMenuProps {
     index?: string;
@@ -46,9 +47,7 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
     }
 
     const renderChildren = () => {
-        const subMenuClasses = classNames('supui-submenu', `supui-submenu-${isTop ? 'toplevel' : 'sublevel'}`, {
-            [`supui-submenu-open`]: isOpenSub
-        })
+        const subMenuClasses = classNames('supui-submenu', `supui-submenu-${isTop ? 'toplevel' : 'sublevel'}`)
 
         const childrenComponent = React.Children.map(children, (child, itemIndex) => {
             const childElement = child as FunctionComponentElement<MenuItemProps>
@@ -60,9 +59,12 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
         })
 
         return (
-            <ul className={subMenuClasses}>
-                {childrenComponent}
-            </ul>
+            <Transition in={isOpenSub} timeout={300} animation={context.mode === 'horizontal'?(isTop?'zoom-in-top':'zoom-in-left'):'zoom-in-top'}>
+                <ul className={subMenuClasses} style={{ display: isOpenSub ? 'block' : 'none' }}>
+                    {childrenComponent}
+                </ul>
+            </Transition>
+
         )
     }
 

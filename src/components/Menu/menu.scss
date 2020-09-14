@@ -89,10 +89,6 @@
             color: $gray-900;
             display: none;
 
-            &.supui-submenu-open {
-                display: block;
-            }
-
             &.supui-submenu-toplevel {
                 top: calc(100% + 8px);
                 left: 0px;
@@ -201,10 +197,6 @@
             background-color: $white;
             color: $gray-900;
             display: none;
-
-            &.supui-submenu-open {
-                display: block;
-            }
         }
     }
 }
