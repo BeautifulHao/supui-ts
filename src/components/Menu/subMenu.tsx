@@ -6,6 +6,7 @@ import { MenuItemProps } from "./menuItem";
 import Icon from '../Icon'
 import { faAngleDown, faAngleUp, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import Transition from '../Transition/transition'
+import useOutsideClick from '../../hooks/useOutsideClick'
 
 export interface SubMenuProps {
     index?: string;
@@ -21,7 +22,6 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
     const [isOpenSub, setOpenSub] = useState(false);
     const ref = useRef<HTMLLIElement>(null);
     const [isTop, setIsTop] = useState(false);
-
     const classes = classNames('supui-submenu-item', className, {
         'supui-submenu-item-disable': disabled,
         'supui-submenu-item-selected': context.index === index
@@ -59,7 +59,7 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
         })
 
         return (
-            <Transition in={isOpenSub} timeout={300} animation={context.mode === 'horizontal'?(isTop?'zoom-in-top':'zoom-in-left'):'zoom-in-top'}>
+            <Transition in={isOpenSub} timeout={300} animation={context.mode === 'horizontal' ? (isTop ? 'zoom-in-top' : 'zoom-in-left') : 'zoom-in-top'}>
                 <ul className={subMenuClasses} style={{ display: isOpenSub ? 'block' : 'none' }}>
                     {childrenComponent}
                 </ul>
@@ -68,22 +68,13 @@ export const SubMenu: React.FC<SubMenuProps> = (props) => {
         )
     }
 
-    const outsideClick = (event: MouseEvent) => {
+    const outSideCallBack = useCallback(() => {
         if (context.mode === 'horizontal') {
-            let result = findDOMNode(ref.current)?.contains(event.target as HTMLElement);
-            if (!result) {
-                setOpenSub(false)
-            }
+            setOpenSub(false)
         }
-    }
+    }, [context.mode])
 
-    useEffect(() => {
-        document.addEventListener('mousedown', outsideClick)
-        return () => {
-            document.removeEventListener('mousedown', outsideClick)
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    useOutsideClick(ref, outSideCallBack)
 
     useEffect(() => {
         const parentNode = findDOMNode(ref.current)?.parentNode as HTMLElement;
