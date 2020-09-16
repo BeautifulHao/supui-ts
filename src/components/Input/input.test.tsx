@@ -12,7 +12,9 @@ const addonProps: InputPros = {
     size:'lg',
     style: { width: '300px' },
     placeholder: 'please input.',
-    addonBefore:'https://'
+    addonBefore:'https://',
+    onChange:jest.fn(),
+    value:'111'
 }
 
 
@@ -27,6 +29,10 @@ describe('test Input', () => {
         const wrapper = mount(<Input {...addonProps}></Input>)
         expect(wrapper.find('.supui-input-addon').hasClass('supui-input-before')).toBe(true)
         expect(wrapper.find('.supui-input-before').html().indexOf('https')>0).toBe(true)
+        expect(wrapper.find('input').prop('value')).toBe('111');
+        wrapper.find('input').simulate('change', { target: { value: '222' } });
+        expect(addonProps.onChange).toBeCalled()
+
     });
 });
 
