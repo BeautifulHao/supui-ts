@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { Story, Meta } from '@storybook/react/types-6-0';
-import Button from '../Button/index'
 import { Input, InputPros } from './input';
 import { faAward } from '@fortawesome/free-solid-svg-icons'
 
@@ -62,7 +61,7 @@ disabledInput.args = {
 
 const ControllerInput:React.FC<any> = () =>{
     const [value, setValue] = useState<string>('123')
-    return <Input value={value} defaultValue={value} onChange={(e) => {setValue(e.target.value)}}/>
+    return <Input style={{ width: '300px' }} value={value} defaultValue={value} onChange={(e) => {setValue(e.target.value)}}/>
 }
 
 const TemplateController: Story<InputPros> = (args: InputPros) => (<ControllerInput {...args} />);
