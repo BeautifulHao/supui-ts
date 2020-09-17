@@ -25,7 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
 var classnames_1 = require("classnames");
 var react_fontawesome_1 = require("@fortawesome/react-fontawesome");
-var Icon = function (props) {
+exports.Icon = function (props) {
     var _a;
     var className = props.className, theme = props.theme, restProps = __rest(props, ["className", "theme"]);
     var classes = classnames_1.default('supui-icon', className, (_a = {},
@@ -33,4 +33,4 @@ var Icon = function (props) {
         _a));
     return (react_1.default.createElement(react_fontawesome_1.FontAwesomeIcon, __assign({ className: classes }, restProps)));
 };
-exports.default = Icon;
+exports.default = exports.Icon;

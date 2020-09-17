@@ -9,6 +9,8 @@ interface InnerButtonPros {
     children: React.ReactNode;
     block: boolean;
     href?: string;
+    Icon: React.ReactNode;
+    loading: boolean;
 }
 declare type NativeButtonProps = InnerButtonPros & ButtonHTMLAttributes<HTMLElement>;
 declare type AnchorButtonProps = InnerButtonPros & AnchorHTMLAttributes<HTMLElement>;

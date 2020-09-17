@@ -24,12 +24,14 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
 var classnames_1 = require("classnames");
+var icon_1 = require("../Icon/icon");
+var free_solid_svg_icons_1 = require("@fortawesome/free-solid-svg-icons");
 //TODO: loading	设置按钮载入状态
 //TODO: icon	设置按钮的图标组件
 //TODO: 单元测试
 exports.Button = function (props) {
     var _a;
-    var children = props.children, className = props.className, btnType = props.btnType, size = props.size, disabled = props.disabled, href = props.href, block = props.block, restProps = __rest(props, ["children", "className", "btnType", "size", "disabled", "href", "block"]);
+    var children = props.children, className = props.className, btnType = props.btnType, size = props.size, disabled = props.disabled, href = props.href, block = props.block, SelfIcon = props.Icon, loading = props.loading, restProps = __rest(props, ["children", "className", "btnType", "size", "disabled", "href", "block", "Icon", "loading"]);
     var classes = classnames_1.default('btn', className, (_a = {},
         _a["btn-" + btnType] = btnType,
         _a["btn-" + size] = size,
@@ -40,7 +42,10 @@ exports.Button = function (props) {
         return (react_1.default.createElement("a", __assign({ className: classes, href: href }, restProps), children));
     }
     else {
-        return (react_1.default.createElement("button", __assign({ className: classes, disabled: disabled }, restProps), children));
+        return (react_1.default.createElement("button", __assign({ className: classes, disabled: disabled || loading === true }, restProps),
+            loading ? (react_1.default.createElement(icon_1.Icon, { icon: free_solid_svg_icons_1.faSpinner, spin: true })) : undefined,
+            SelfIcon,
+            children));
     }
 };
 exports.Button.defaultProps = {
