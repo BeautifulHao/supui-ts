@@ -36,6 +36,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     const ulRef = useRef<HTMLUListElement>(null)
     const isFetchRef = useRef<boolean>(false)
     const lastChangeInput = useDebounce(inputValue)
+    const [highlightIndex, setHighlightIndex] = useState<number>(-1)
     const downListHideHandler = useCallback(
         () => {
             setShowDownList(false)
@@ -48,25 +49,27 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     useEffect(() => {
         if (isFetchRef.current && lastChangeInput) {
             const result = fetchSuggestions(lastChangeInput);
-            let ifShowDownList = false;
             if (result instanceof Promise) {
                 setSuggestionLoading(true)
                 result.then(data => {
-                    setSuggestionLoading(true)
+                    setSuggestionLoading(false)
                     setSuggestions(data)
-                    ifShowDownList = data.length > 0
+                    setShowDownList(data.length > 0)
+                }).catch((e)=>{
+                    setSuggestionLoading(false)
+                    setSuggestions([])
+                    console.error(e)
                 })
             }
             else {
                 setSuggestions(result)
-                ifShowDownList = result.length > 0
+                setShowDownList(result.length > 0)
             }
-
-            setShowDownList(ifShowDownList)
         }
-        else{
+        else {
             setShowDownList(false)
         }
+        setHighlightIndex(-1)
     }, [fetchSuggestions, lastChangeInput])
 
     const onLiSelect = (item: DataSourceType) => {
@@ -80,6 +83,40 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         setInputValue(editValue)
     }
 
+    const onItemKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+
+        switch (e.keyCode) {
+            // enter
+            case 13:
+                if (suggestions[highlightIndex]) {
+                    onLiSelect(suggestions[highlightIndex])
+                }
+                break
+            //up
+            case 38:
+                highlight(highlightIndex - 1)
+                break
+            //down
+            case 40:
+                highlight(highlightIndex + 1)
+                break
+            // ESC
+            case 27:
+                setShowDownList(false)
+                break
+            default:
+                break
+        }
+
+    }
+
+    const highlight = (index: number) => {
+        if (index < 0) index = 0
+        if (index >= suggestions.length) {
+            index = suggestions.length - 1
+        }
+        setHighlightIndex(index)
+    }
     const classs = classNames('supui-autoComplete')
     const suggestionClasss = classNames('supui-autoComplete-suggestion')
 
@@ -93,7 +130,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
                         </div>
                     }
                     {suggestions.map((item, index) => {
-                        return <li className="supui-autoComplete-li " key={item.value + index} onClick={() => { onLiSelect(item) }}>{renderOption ? renderOption(item) : item.value}</li>
+                        const itemClasss = classNames('supui-autoComplete-li', { [`is-active`]: index === highlightIndex })
+                        return <li className={itemClasss} key={item.value + index} onClick={() => { onLiSelect(item) }}>{renderOption ? renderOption(item) : item.value}</li>
                     })}
                 </ul>
             </Transition>
@@ -101,8 +139,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     }
 
     return (
-        <div className={classs} style={{...style}}>
-            <Input {...restProps} value={inputValue} onChange={onChange}></Input>
+        <div className={classs} style={{ ...style }}>
+            <Input {...restProps} value={inputValue} onChange={onChange} onKeyDown={onItemKeyDown}></Input>
             {renderSuggestion()}
         </div>
     )
