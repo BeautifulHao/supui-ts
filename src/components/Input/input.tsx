@@ -38,7 +38,7 @@ export const Input: FC<InputPros> = (props) => {
     return (
         <div className={classes} style={{ ...style }}>
             {!icon && addonBefore ? (<span className="supui-input-before supui-input-addon">{addonBefore}</span>) : null}
-            {icon ? (<div className="supui-icon-wrapper ">
+            {icon ? (<div className="supui-icon-wrapper">
                 <Icon icon={icon}></Icon>
             </div>) : null}
             <input disabled={disabled} {...restProps} className="supui-input-inner"></input>

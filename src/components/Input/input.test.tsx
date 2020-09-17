@@ -1,39 +1,53 @@
 import React from 'react'
-import { Input, InputPros} from './input'
-import { mount } from 'enzyme'
+import { render, RenderResult, fireEvent } from '@testing-library/react'
+import { InputPros, Input } from './input'
+import { faAirFreshener } from '@fortawesome/free-solid-svg-icons'
 
 const defaultProps: InputPros = {
-    size:'lg',
+    size: 'lg',
     style: { width: '300px' },
-    placeholder: 'please input.',
+    onChange: jest.fn(),
+    placeholder: 'please-input.',
+    addonAfter: 'com'
 }
 
-const addonProps: InputPros = {
-    size:'lg',
-    style: { width: '300px' },
-    placeholder: 'please input.',
-    addonBefore:'https://',
-    onChange:jest.fn(),
-    value:'111'
+const iconProps: InputPros = {
+    size: 'sm',
+    placeholder: 'icon-input',
+    icon: faAirFreshener
 }
 
+const disabledProps:InputPros = {
+    disabled:true,
+    placeholder:'disabled',
+    addonBefore:'https://'
+}
 
 describe('test Input', () => {
+
     it('should render the corrent default input', () => {
-        const wrapper = mount(<Input {...defaultProps}></Input>)
-        expect(wrapper.find('.supui-input').hasClass('supui-input-size-lg')).toBe(true)
-        expect(wrapper.find('.supui-input-inner').html().indexOf('please input.')>0).toBe(true)
+        const wrapper: RenderResult = render(<Input {...defaultProps} />)
+        const inputNode: HTMLInputElement = wrapper.getByPlaceholderText('please-input.') as HTMLInputElement
+        fireEvent.change(inputNode, { target: { value: 'a' } })
+        expect(inputNode.value).toBe('a')
+        expect(defaultProps.onChange).toBeCalled()
+        expect(inputNode).toHaveClass('supui-input-inner')
+        expect(wrapper.getByText('com')).toBeInTheDocument()
+        expect(inputNode.parentElement).toHaveClass('supui-input-size-lg')
     });
 
-    it('should render the corrent addon input', () => {
-        const wrapper = mount(<Input {...addonProps}></Input>)
-        expect(wrapper.find('.supui-input-addon').hasClass('supui-input-before')).toBe(true)
-        expect(wrapper.find('.supui-input-before').html().indexOf('https')>0).toBe(true)
-        expect(wrapper.find('input').prop('value')).toBe('111');
-        wrapper.find('input').simulate('change', { target: { value: '222' } });
-        expect(addonProps.onChange).toBeCalled()
+    it('should render the corrent icon input',() =>{
+        const wrapper:RenderResult = render(<Input {...iconProps}/>)
+        const inputNode: HTMLInputElement = wrapper.getByPlaceholderText('icon-input') as HTMLInputElement
+        expect(inputNode.parentElement?.firstChild).toHaveClass('supui-icon-wrapper')
+    })
 
-    });
+    it("should render the corrent disabled input",() =>{
+        const wrapper:RenderResult = render(<Input {...disabledProps}/>)
+        const inputNode: HTMLInputElement = wrapper.getByPlaceholderText('disabled') as HTMLInputElement
+        expect(inputNode.disabled).toBeTruthy()
+    })
+
 });
 
 
