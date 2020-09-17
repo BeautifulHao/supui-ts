@@ -5,6 +5,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import Input, { InputPros } from '../Input/input'
 import Transition from '../Transition/transition'
 import useOutsideClick from '../../hooks/useOutsideClick'
+import useDebounce from '../../hooks/useDebounce'
 
 interface DataSourceObject {
     value: string;
@@ -24,6 +25,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         onSelect,
         value,
         renderOption,
+        style,
         ...restProps
     } = props
 
@@ -33,6 +35,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     const [showDownList, setShowDownList] = useState<boolean>(false)
     const ulRef = useRef<HTMLUListElement>(null)
     const isFetchRef = useRef<boolean>(false)
+    const lastChangeInput = useDebounce(inputValue)
     const downListHideHandler = useCallback(
         () => {
             setShowDownList(false)
@@ -43,8 +46,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     useOutsideClick(ulRef, downListHideHandler)
 
     useEffect(() => {
-        if (isFetchRef.current && inputValue) {
-            const result = fetchSuggestions(inputValue);
+        if (isFetchRef.current && lastChangeInput) {
+            const result = fetchSuggestions(lastChangeInput);
             let ifShowDownList = false;
             if (result instanceof Promise) {
                 setSuggestionLoading(true)
@@ -64,7 +67,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
         else{
             setShowDownList(false)
         }
-    }, [fetchSuggestions, inputValue])
+    }, [fetchSuggestions, lastChangeInput])
 
     const onLiSelect = (item: DataSourceType) => {
         setInputValue(item.value)
@@ -73,8 +76,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const editValue = e.target.value.trim()
-        setInputValue(editValue)
         isFetchRef.current = true
+        setInputValue(editValue)
     }
 
     const classs = classNames('supui-autoComplete')
@@ -98,7 +101,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     }
 
     return (
-        <div className={classs}>
+        <div className={classs} style={{...style}}>
             <Input {...restProps} value={inputValue} onChange={onChange}></Input>
             {renderSuggestion()}
         </div>

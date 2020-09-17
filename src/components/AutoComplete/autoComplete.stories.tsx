@@ -29,6 +29,7 @@ const SimpleComplete = () => {
         <AutoComplete
             fetchSuggestions={handleFetch}
             onSelect={action('selected')}
+            style={{width:300}}
         />
     )
 }
