@@ -75,6 +75,9 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     const onLiSelect = (item: DataSourceType) => {
         setInputValue(item.value)
         isFetchRef.current = false
+        if(onSelect){
+            onSelect(item)
+        }
     }
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {

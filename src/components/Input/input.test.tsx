@@ -1,7 +1,9 @@
 import React from 'react'
 import { render, RenderResult, fireEvent } from '@testing-library/react'
+import { config } from 'react-transition-group'
 import { InputPros, Input } from './input'
 import { faAirFreshener } from '@fortawesome/free-solid-svg-icons'
+config.disabled = true
 
 const defaultProps: InputPros = {
     size: 'lg',

@@ -31,6 +31,10 @@ const SimpleComplete = () => {
     const handleFetch = (query: string) => {
         return lakersWithNumber.filter(player => player.value.includes(query) && query.length > 0)
     }
+
+    const renderOption = (item: DataSourceType) => {
+        return (<span className='self-class'>{item.value}</span>)
+    }
     // const handleFetch = (query: string) => {
     //     return fetch(`https://api.github.com/search/users?q=${query}`)
     //         .then(res => res.json())
@@ -53,7 +57,7 @@ const SimpleComplete = () => {
             fetchSuggestions={handleFetch}
             onSelect={action('selected')}
             style={{ width: 300 }}
-           // renderOption={renderOption}
+            renderOption={renderOption}
         />
     )
 }
