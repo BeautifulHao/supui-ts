@@ -36,7 +36,9 @@
     "react-is": "^16.13.1",
     "react-scripts": "3.4.3",
     "rimraf": "^3.0.2",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "cross-env": "^7.0.0",
+    "husky": "^4.2.1"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -46,8 +48,7 @@
     "@testing-library/dom": "7.24.2",
     "@types/react-transition-group": "^4.4.0",
     "classnames": "^2.2.6",
-    "husky": "^4.2.1",
-    "react-transition-group": "^4.4.1"
+    "react-transition-group": "^4.4.1",
   },
   "scripts": {
     "start": "react-scripts start",
@@ -55,6 +56,7 @@
     "clean": "rimraf ./dist",
     "lint": "eslint --ext js,ts,tsx src --max-warnings 5",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+    "test:nowatch": "cross-env CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
     "build-ts": "tsc -p tsconfig.build.json",
     "build-css": "node-sass ./src/styles/index.scss ./dist/index.css",
@@ -63,6 +65,11 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test:nowatch && npm run lint"
+    }
   },
   "browserslist": {
     "production": [
