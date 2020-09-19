@@ -1,0 +1,73 @@
+.supui-upload {
+    border: 1px solid rgba($color:$gray-500, $alpha: 0.5);
+    padding: 10px;
+    user-select: none;
+
+    .supui-upload-option {
+        box-sizing: border-box;
+        height: 200px;
+        margin: 0 auto;
+        padding: 40px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px dotted rgba($color:$gray-400, $alpha: 0.8);
+
+        &:hover{
+            cursor: pointer;
+            border: 1px dotted rgba($color:$cyan, $alpha: 0.9);
+            color: $cyan;
+            &>svg {
+                color: $cyan;
+            }
+        }
+
+        &.drag-over {
+            border: 1px dotted rgba($color:$cyan, $alpha: 0.9);
+            color: $cyan;
+
+            &>svg {
+                color: $cyan;
+            }
+        }
+    }
+
+    .supui-upload-filelist {
+        list-style: none;
+        display: block;
+        padding: 0;
+        margin: 5px 0px;
+
+        .supui-upload-item {
+            display: block;
+            padding:2px;
+            position: relative;
+
+            .supui-upload-item-status{
+                position: absolute;
+                top: 3px;
+                right: 4px;
+                display: block;
+            }
+
+            .supui-upload-item-action{
+                position: absolute;
+                top: 3px;
+                right: 7px;
+                display: none;
+                cursor: pointer;
+            }
+
+            &:hover {
+                background-color: $gray-200;
+
+                .supui-upload-item-status{
+                    display: none;
+                }
+    
+                .supui-upload-item-action{
+                    display: block;
+                }    
+            }
+        }
+    }
+}
