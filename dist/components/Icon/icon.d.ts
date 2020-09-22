@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
-export declare type ThemeProps = 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger' | 'light' | 'dark';
+import { ThemeProps } from '../util/common';
 interface IconInnerProps {
     theme?: ThemeProps;
     style?: CSSProperties;
