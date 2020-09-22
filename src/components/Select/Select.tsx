@@ -21,19 +21,33 @@ export interface SelectProps {
     disabled?: boolean;
     name?: string;
     optionList?: OptionValue[];
-    onChange?: (value: string | string[]) => void;
+    onChange?: (value: OptionProps | OptionProps[]) => void;
     styles?: CSSProperties;
     itemRender?: (item: OptionProps) => React.ReactNode;
     defaultValue?: OptionValue;
-    defaultValues?: string[];
+    defaultValues?: OptionValue[];
 }
 
 export const Select: React.FC<SelectProps> = (props) => {
-    const { multiple = false, placeholder, disabled, name, optionList, onChange, styles, children, itemRender, defaultValue } = props
+    const {
+        multiple = false,
+        placeholder,
+        disabled,
+        name,
+        optionList,
+        onChange,
+        styles,
+        children,
+        itemRender,
+        defaultValue,
+        defaultValues = []
+    } = props
+
     const [selectOptionOpen, setSelectOptionOpen] = useState<boolean>(false);
     const selectRef = useRef<HTMLDivElement>(null)
     const transitionCallback = useCallback(() => setSelectOptionOpen(false), [])
     const [selectValue, setSelectValue] = useState<OptionValue | undefined>(defaultValue)
+    const [selectValues, setSelectVaules] = useState<OptionValue[]>(defaultValues)
 
     const dropDownHandler = (e: MouseEvent<HTMLDivElement>) => {
         if (!disabled) {
@@ -42,10 +56,54 @@ export const Select: React.FC<SelectProps> = (props) => {
     }
 
     const OptionSelect = (item: OptionProps) => {
-        setSelectValue(item);
-        setSelectOptionOpen(false)
-        if (onChange) {
-            onChange(item.value)
+        if (!multiple) {
+            setSelectValue(item);
+            setSelectOptionOpen(false)
+            if (onChange) {
+                onChange(item)
+            }
+        }
+        else {
+            if (selectValues && selectValues.filter(some => some.value === item.value).length > 0) {
+                let lastValues: OptionValue[] = []
+                selectValues.forEach(some => {
+                    if (some.value !== item.value) {
+                        lastValues.push(some)
+                    }
+                })
+                setSelectVaules([...lastValues])
+                if (onChange) {
+                    onChange([...lastValues])
+                }
+            }
+            else {
+                let lastValues: OptionValue[] = []
+                setSelectVaules(values => {
+                    lastValues = [...values, { ...item }];
+                    return lastValues
+                })
+                if (onChange) {
+                    onChange([...lastValues])
+                }
+            }
+        }
+    }
+
+    const checkIsSelected = (value: string) => {
+        if (multiple) {
+            return selectValues && selectValues.filter(item => item.value === value).length > 0
+        }
+        else {
+            return selectValue && selectValue.value === value
+        }
+    }
+
+    const showPlaceHolder = () => {
+        if (multiple) {
+            return selectValues && selectValues.length > 0 ? selectValues.map(item => item.label).join(',') : placeholder
+        }
+        else {
+            return selectValue ? selectValue.label : placeholder
         }
     }
 
@@ -60,7 +118,7 @@ export const Select: React.FC<SelectProps> = (props) => {
                             index: index.toString(),
                             onClick: OptionSelect,
                             renderItem: itemRender,
-                            selected: selectValue && childElement.props.value === selectValue.value
+                            selected: checkIsSelected(childElement.props.value)
                         })
                 }
                 else {
@@ -77,7 +135,7 @@ export const Select: React.FC<SelectProps> = (props) => {
                     index={index.toString()}
                     onClick={OptionSelect}
                     renderItem={itemRender}
-                    selected={selectValue && item.value === selectValue.value}
+                    selected={checkIsSelected(item.value)}
                 ></Option>)
             })
         } else {
@@ -102,7 +160,7 @@ export const Select: React.FC<SelectProps> = (props) => {
                     </div>
                     <input
                         disabled={disabled}
-                        placeholder={multiple === false ? (selectValue ? selectValue.label : placeholder) : undefined}
+                        placeholder={showPlaceHolder()}
                         className="supui-select-input-inner"
                         onFocus={focusHandler}
                         type="text"

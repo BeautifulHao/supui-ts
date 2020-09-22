@@ -26,3 +26,12 @@ DefalutSelect.args = {
     placeholder: 'select item.',
     disabled: false
 };
+
+export const MultipleSelect = Template.bind({});
+
+MultipleSelect.args = {
+    styles: { width: 360 },
+    placeholder: 'select item.',
+    disabled: false,
+    multiple:true
+};
