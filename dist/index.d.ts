@@ -1,8 +1,8 @@
 export { default as Alert } from './components/Alert';
 export { default as AutoComplete } from './components/AutoComplete';
-export { default as Menu, MenuItem, SubMenu } from './components/Menu';
+export { default as Menu } from './components/Menu';
 export { default as Progress } from './components/Progress';
-export { default as Select, Option } from './components/Select';
+export { default as Select } from './components/Select';
 export { default as Transition } from './components/Transition';
 export { default as Upload } from './components/Upload';
 export { default as useDebounce } from './hooks/useDebounce';

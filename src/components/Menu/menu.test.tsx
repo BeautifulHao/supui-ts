@@ -1,7 +1,10 @@
 import React from 'react'
-import { MenuItem, SubMenu, Menu } from './index'
+import Menu from './index'
 import { mount } from 'enzyme'
 import { MenuPros } from './menu'
+
+const MenuItem = Menu.Item
+const SubMenu = Menu.SubMenu
 
 const Template = (args: MenuPros) => (
     <Menu {...args}>
