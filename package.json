@@ -62,7 +62,7 @@
     "build-ts": "tsc -p tsconfig.build.json",
     "build-css": "node-sass ./src/styles/index.scss ./dist/index.css",
     "doc": "start-storybook -p 6006",
-    "build-doc": "build-storybook"
+    "build-doc": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
