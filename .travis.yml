@@ -6,29 +6,12 @@ cache:
   - node_modules
 env:
   - CI=true
-
-stage:
-  - test
-  - pages
-
-jobs:
-  include:
-    - stage:test
-      script:
-        - node --version
-        - npm --version
-        - echo "Testing"
-        - npm test
-    
-    - stage: pages
-      script:
-        - npm run build-doc 
-      deploy:
-        provider: pages
-        skip_cleanup: true
-        github_token: $github_token
-        local_dir: storybook-static
-        on:
-          branch: master
-  
-  
+script:
+  - npm run build-doc
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $github_token
+  local_dir: storybook-static
+  on:
+    branch: master
