@@ -10,7 +10,6 @@ const defaultProps : ProgressProps = {
     theme:'info'
 }
 
-
 describe('test Progress', () => {
 
     it('should render the corrent default Progress', () => {
